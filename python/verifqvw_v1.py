@@ -2,7 +2,7 @@ import os, glob, time, datetime
 
 def my_function(input_dir):
     todayday = datetime.datetime.today().date()
-    output_name = f"//10.2.30.61/c$/temp/{todayday}.txt"
+    output_name = f"//10.2.30.61/c$/Qlikview_Tropal/raport/{todayday}.txt"
     today = datetime.datetime.today()
     with open(output_name,"a+") as f:
         os.chdir(input_dir)
