@@ -1,18 +1,21 @@
 import os, glob, time, datetime
 
-def my_function(output_name, input_dir):
-    with open(output_name, "w+") as f:
+def my_function(input_dir):
+    todayday = datetime.datetime.today().date()
+    output_name = f"//10.2.30.61/c$/temp/{todayday}.txt"
+    today = datetime.datetime.today()
+    with open(output_name,"a+") as f:
         os.chdir(input_dir)
-        for fichiers in glob.glob("*"):
-            today = datetime.datetime.today()
+        for fichiers in glob.glob("**", recursive=True):
             modified_date = datetime.datetime.fromtimestamp(os.path.getmtime(fichiers))
+            path = os.path.abspath(fichiers)
             duration = today - modified_date
-            if duration.days < 5:
-                f.write(f"{fichiers} = {duration} \n")
+            if duration.days > 1 and duration.days < 7:
+                f.write(f"{path} = {modified_date} \n\n")
     f.close()
 
-arguments = { "//10.2.30.61/c$/temp/test1.txt" : "//10.2.30.61/c$/Qlikview_Tropal/Apps/Ventes", 
-              "//10.2.30.61/c$/temp/test1.txt" : "//10.2.30.61/c$/Qlikview_Tropal/Apps/Marge",
-              "//10.2.30.61/c$/temp/test1.txt" : "//10.2.30.61/c$/Qlikview_Tropal/apps/prod"}
-for output_name, input_dir in arguments.items():
-    my_function(output_name, input_dir)
+my_function("//10.2.30.61/c$/Qlikview_Tropal/Apps/")
+my_function("//10.2.30.61/c$/Qlikview_Tropal_Paie/Apps/")
+my_function("//10.2.30.61/c$/Qlikview_Jastres/apps/")
+my_function("//10.2.30.61/c$/Qlikview_Compta/SuiviCompta/apps/")
+

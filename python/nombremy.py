@@ -8,8 +8,23 @@ def pasdelettres():
                 break
             except:
                 print("Pas de lettres !")
+def pasdelettres1():
+        while True:
+            try:
+                difficulte = int(input("Choisissez votre difficulte : 1, 2 ou 3 : "))
+                return difficulte
+                break
+            except:
+                print("Pas de lettres !")
 def random1():
-    nombre_mystere = random.randrange(0, 100)
+    pasdelettres1():
+    if difficulte == 1:
+        difficulte = random.randrange(1, 100)
+    if difficulte == 2:
+        difficulte = random.randrange(1, 1000)
+    if difficulte == 3:
+        difficulte = random.randrange(1, 10000)
+    nombre_mystere = difficulte
     print(nombre_mystere)
     nombre = pasdelettres()
     while nombre != nombre_mystere:
