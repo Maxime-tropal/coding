@@ -18,4 +18,5 @@ my_function("//10.2.30.61/c$/Qlikview_Tropal/Apps/")
 my_function("//10.2.30.61/c$/Qlikview_Tropal_Paie/Apps/")
 my_function("//10.2.30.61/c$/Qlikview_Jastres/apps/")
 my_function("//10.2.30.61/c$/Qlikview_Compta/SuiviCompta/apps/")
+exit
 
