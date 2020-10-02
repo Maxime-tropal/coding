@@ -4,7 +4,7 @@ def my_function(input_dir):
     filesinfo = [] #création d'une liste vide
     today = datetime.datetime.today() #récupère la date du pc
     os.chdir(input_dir) 
-    for fichiers in glob.glob("**", recursive=True): #récupère tout les fichiers 
+    for fichiers in glob.glob("**", recursive=True): #récupère tout les fichiers dans le dossier
         modified_date = datetime.datetime.fromtimestamp(os.path.getmtime(fichiers))
         path = os.path.abspath(fichiers)
         duration = today - modified_date
@@ -19,9 +19,9 @@ def writefile(filesinfo):
         for item in filesinfo:
             f.write(item + "\n\n")
 # liste de liste mettre l'appel des fonctions dans une liste
-my_function("//10.2.30.61/c$/Qlikview_Tropal/Apps/")
-my_function("//10.2.30.61/c$/Qlikview_Tropal_Paie/Apps/")
-my_function("//10.2.30.61/c$/Qlikview_Jastres/apps/")
-my_function("//10.2.30.61/c$/Qlikview_Compta/SuiviCompta/apps/")
+repertoires = ["//10.2.30.61/c$/Qlikview_Tropal/Apps/", "//10.2.30.61/c$/Qlikview_Tropal_Paie/Apps/", "//10.2.30.61/c$/Qlikview_Jastres/apps/", "//10.2.30.61/c$/Qlikview_Compta/SuiviCompta/apps/"]
+for item in repertoires:
+    input_dir = item
+    my_function(input_dir)
 exit
 
