@@ -8,7 +8,7 @@ def my_function(input_dir):
         modified_date = datetime.datetime.fromtimestamp(os.path.getmtime(fichiers))
         path = os.path.abspath(fichiers)
         duration = today - modified_date
-        if duration.days > 1 and duration.days < 360:
+        if duration.days > 1 and duration.days < 5:
             filesinfo.append(f"{modified_date} = {path}")
     writefile(filesinfo)
             
