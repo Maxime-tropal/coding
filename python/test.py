@@ -4,11 +4,11 @@ test1 = Tk()
 
 def LeftClick(event): #event permet de lancer la fonction si la condition du bind a été accomplie.
     test2 = Tk()
-    new_window = Label(test2, text="this is a test")
+    new_window = Label(test2, text="leftclick")
     new_window.grid(row=0)
 def RightClick(event):
     test3 = Tk()
-    new_window = Label(test3, text="this is a test")
+    new_window = Label(test3, text="rightclick")
     new_window.grid(row=0)   
 
 name = Label(test1, text="Username : ")
