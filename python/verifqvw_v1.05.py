@@ -10,8 +10,8 @@ def my_function(input_dir, output_name):
             os.path.getmtime(fichiers))
         path = os.path.abspath(fichiers)
         duration = today - modified_date
-        if duration.seconds > 18000 and duration.days < 5:
-            filesinfo.append(f"{duration} = {path}")
+        if duration.seconds > 43200 and duration.days < 5:
+            filesinfo.append(f"{modified_date} = {path}")
     writefile(filesinfo, output_name)
 
 def writefile(filesinfo, output_name):
