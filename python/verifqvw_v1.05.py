@@ -21,7 +21,7 @@ def writefile(filesinfo, output_name):
 
 def incrementfile():
     today = datetime.datetime.today().date()
-    path = pathlib.Path("T:/Qlikview_Tropal/Raport")
+    path = pathlib.Path("//10.2.30.61/c$/Qlikview_Tropal/Raport")
     inc = len(list(path.glob(f"{today}*")))+1
     outfile = path/f"{today}_{inc}.txt"
     return outfile
