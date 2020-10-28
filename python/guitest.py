@@ -1,43 +1,11 @@
 from tkinter import * 
-import os, glob, time, pathlib, datetime
-test1 = Tk()
 
+test1 = Tk()
+title = "Python"
 def LeftClick(event): #event permet de lancer la fonction si la condition du bind a été accomplie.
     test2 = Tk()
-    new_window = Label(test2, text="Done !")
+    new_window = Label(test2, text="leftclick")
     new_window.grid(row=0)
-    output_name = incrementfile()
-    repertoires = ["//10.2.30.61/c$/Qlikview_Tropal/Apps/", "//10.2.30.61/c$/Qlikview_Tropal_Paie/Apps/",
-               "//10.2.30.61/c$/Qlikview_Jastres/apps/", "//10.2.30.61/c$/Qlikview_Compta/SuiviCompta/apps/"]
-    for item in repertoires:
-        input_dir = item
-        my_function(input_dir, output_name)
-    exit
- 
-def my_function(input_dir, output_name):
-    filesinfo = []  # création d'une liste vide
-    today = datetime.datetime.today()  # récupère la date du pc
-    os.chdir(input_dir)
-    for fichiers in glob.glob("**", recursive=True): # récupère tout les fichiers dans le dossier
-        modified_date = datetime.datetime.fromtimestamp(
-            os.path.getmtime(fichiers))
-        path = os.path.abspath(fichiers)
-        duration = today - modified_date
-        if duration.seconds > 18000 and duration.days < 5:
-            filesinfo.append(f"{duration} = {path}")
-    writefile(filesinfo, output_name)
-
-def writefile(filesinfo, output_name):
-    with open(output_name, "a+") as f:
-        for item in filesinfo:
-            f.write(item + "\n\n")
-
-def incrementfile():
-    today = datetime.datetime.today().date()
-    path = pathlib.Path("T:/Qlikview_Tropal/Raport")
-    inc = len(list(path.glob(f"{today}*")))+1
-    outfile = path/f"{today}_{inc}.txt"
-    return outfile
 
 name = Label(test1, text="Username : ")
 password = Label(test1, text="Password : ")

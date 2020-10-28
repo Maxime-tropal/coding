@@ -1,28 +1,64 @@
-from tkinter import * 
-import os, glob, time, pathlib, datetime
-test1 = Tk()
+from tkinter import *
 
-def LeftClick(event): #event permet de lancer la fonction si la condition du bind a été accomplie.
-    test2 = Tk()
-    new_window = Label(test2, text="leftclick")
-    new_window.grid(row=0)
+root = Tk()
 
-name = Label(test1, text="Username : ")
-password = Label(test1, text="Password : ")
-entry1 = Entry(test1)
-entry2 = Entry(test1)
+root.title("Calculette")
 
-name.grid(row=0, sticky=E)  #N-E-S-W north east south west, grid fonctionne comme un tableau excel
-password.grid(row=1, sticky=E)
+e = Entry(root, width=35, borderwidth=5)
+e.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 
-entry1.grid(row=0, column=1)
-entry2.grid(row=1, column=1)
+def button_click(number):
+    current = e.get()
+    e.delete(0, END)
+    e.insert(0,str(current) + str(number))
+   
+def button_clear():
+    e.delete(0, END)
 
-checkbox = Checkbutton(test1, text="Keep me logged in ?")
-checkbox.grid(columnspan=2) #rassemble 2 cellules en 1 seule
+def button_add():
+    first_number = e.get()
+    global f_num
+    f_num = int(first_number)
+    e.delete(0, END)
 
-button= Button(test1, text="Click me!")
-button.bind("<Button-1>", LeftClick) # <Button-1> = click gauche, <Button-2> click molette, <Button-3> click droit
-button.grid(row=4)                       #quand on appelle une fonction avec tkinter ne pas mettre les ()
+def button_equal():
+    second_number = e.get()
+    e.delete(0, END)
+    e.insert(0, f_num + int(second_number))
 
-test1.mainloop()  #permet de laisser la fenêtre ouverte en permanence                                      
+button1 = Button(root, text="1", padx=40, pady=20, command=lambda: button_click(1))
+button2 = Button(root, text="2", padx=40, pady=20, command=lambda: button_click(2))
+button3 = Button(root, text="3", padx=40, pady=20, command=lambda: button_click(3))
+button4 = Button(root, text="4", padx=40, pady=20, command=lambda: button_click(4))
+button5 = Button(root, text="5", padx=40, pady=20, command=lambda: button_click(5))
+button6 = Button(root, text="6", padx=40, pady=20, command=lambda: button_click(6))
+button7 = Button(root, text="7", padx=40, pady=20, command=lambda: button_click(7))
+button8 = Button(root, text="8", padx=40, pady=20, command=lambda: button_click(8))
+button9 = Button(root, text="9", padx=40, pady=20, command=lambda: button_click(9))
+button0 = Button(root, text="1", padx=40, pady=20, command=lambda: button_click(0))
+button_add = Button(root, text='+', padx= 39, pady=20, command= button_add)
+button_equal = Button(root, text='=', padx=91, pady=20, command= button_equal)
+button_clear = Button(root, text="Clear", padx=79, pady=20, command=button_clear)
+
+
+button1.grid(row=3, column=0)
+button2.grid(row=3, column=1)
+button3.grid(row=3, column=2)
+
+button4.grid(row=2, column=0)
+button5.grid(row=2, column=1)
+button6.grid(row=2, column=2)
+
+button7.grid(row=1, column=0)
+button8.grid(row=1, column=1)
+button9.grid(row=1, column=2)
+
+button0.grid(row=4, column=0)
+button_clear.grid(row=4, column=1, columnspan=2)
+button_add.grid(row=5, column=0)
+button_equal.grid(row=5, column=1, columnspan=2)
+
+root.mainloop()
+
+
+#bouton padx=, pady=
