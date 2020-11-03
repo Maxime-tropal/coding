@@ -1,7 +1,7 @@
 from tkinter import * 
 
 test1 = Tk()
-title = "Python"
+test1.title = "Python"
 def LeftClick(event): #event permet de lancer la fonction si la condition du bind a été accomplie.
     test2 = Tk()
     new_window = Label(test2, text="leftclick")
