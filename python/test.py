@@ -1,28 +1,20 @@
-from tkinter import *   
+from tkinter import *
+from tkcalendar import*
+
+root= Tk()
+root.title("test")
+root.geometry("800x600")
 
 
-class Bouttons():
+cal= Calendar(root, selectmode="day", year=2020, month=11, day=5)
+cal.pack(pady=20)
 
-    def __init__(self, master):
-        frame = Frame(master, width=200, height=100)
-        frame.grid()
+def grab_date():
+        mylabel.config(text=cal.get_date())
 
-        self.clickButton = Button(frame, text="Click me", command= self.printtest)
-        self.clickButton.grid(row=0, column=2)
+button1 = Button(root, text= "get date", command=grab_date)
+button1.pack(pady=20)
 
-        self.quitbutton = Button(frame, text="Fermer", command=frame.quit)
-        self.quitbutton.grid(row=1, column=0)
-    
-    col_count, row_count =test1.grid_size()
+mylabel = Label(root, text="")
 
-    for col in range(col_count):
-            test1.grid_columnconfigure(col, minsize=20)
-
-    for row in range(row_count):
-            test1.grid_rowconfigure(row, minsize=20)
-    def printtest(self):
-        print("test ok")
-
-test1 = Tk()
-b = Bouttons(test1)
-test1.mainloop()
+root.mainloop()
