@@ -4,7 +4,7 @@ from tkinter import *
 from os import startfile
 
 
-def starttest():
+def maintest():
 
     def mainfonction(input_dir, output_name):
         filesinfo = []  # création d'une liste vide
@@ -21,12 +21,12 @@ def starttest():
 
     def writefile(filesinfo, output_name):
         with open(output_name, "a+") as f:
-            lines = f.readlines()
+            lines = f.readlines() #test triage fichier texte
             lines.sort(key = lambda l : l.split('=')[0])
             for item in filesinfo:
                 f.write(item + "\n\n")
 
-    def incrementfile():
+    def incrementfile(): #incrémentation du nom du fichier texte
         today = datetime.datetime.today().date()
         path = pathlib.Path("//10.2.30.61/c$/Qlikview_Tropal/Raport")
         inc = len(list(path.glob(f"{today}*")))+1
@@ -43,47 +43,45 @@ def starttest():
 
 today = str(datetime.datetime.today().date())
 
-def opentext1():
-    if os.path.isfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_1.txt") == True:
-        startfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_1.txt")
-    else:
-        tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé")
+def init(nbButton):
 
-def opentext2():
-    if os.path.isfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_2.txt") == True:
-        startfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_2.txt")
+    if nbButton <=6:
+        rowz = 2
+        resultat = 1
+        for i in range(nbButton):
+            i=i+1
+            button = Button(root, text="Resultat " + str(resultat), command=lambda i=i: opentext(i))
+            button.grid(row=rowz, column=19)
+            button.config(height=4, width=20)
+            rowz +=3
+            resultat +=1
+            print(i)
+        
     else:
-        tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé 2 fois")
+        tkinter.messagebox.showerror("Attention !", "Le nombre de boutons doit être inférieur a 6 !")
+        root.destroy()
 
-def opentext3():
-    if os.path.isfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_3.txt") == True:
-        startfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_3.txt")
+
+def opentext(x):
+    
+    x = str(x)
+    if os.path.isfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_" + x + ".txt") == True:
+        startfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_" + x + ".txt")
     else:
-        tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé 3 fois")
+        tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé " + x + " fois aujourd'hui.")
 
 root = Tk()
-root.geometry("800x700")
+root.geometry("800x850")
+
+init(6)
 
 d = datetime.date.today()
 cal = Calendar(root, selectmode="day", year=d.year, month=d.month, day=d.day)
-cal.grid(row=2, column= 3)
+cal.grid(row=2, column= 3, rowspan=5)
 
-testbutton = Button(root, text="TEST", command=starttest)
-testbutton.grid(row=16, column=19)
+testbutton = Button(root, text="TEST", command=maintest, bg="red")
+testbutton.grid(row=16, column=3, rowspan=2)
 testbutton.config(height=4, width=20)
-
-resultat1 = Button(root, text="Resultat 1", command=opentext1)
-resultat1.grid(row=2, column=19)
-resultat1.config(height=4, width=20)
-
-resultat2 = Button(root, text="Resultat 2", command=opentext2)
-resultat2.grid(row=4, column=19)
-resultat2.config(height=4, width=20)
-
-resultat3 = Button(root, text="Resultat 3", command=opentext3)
-resultat3.grid(row=8, column=19)
-resultat3.config(height=4, width=20)
-
 
 col_count, row_count = root.grid_size()
 

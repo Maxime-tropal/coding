@@ -1,20 +1,38 @@
+import tkinter as tk
+import tkinter.messagebox
 from tkinter import *
-from tkcalendar import*
-
-root= Tk()
-root.title("test")
-root.geometry("800x600")
 
 
-cal= Calendar(root, selectmode="day", year=2020, month=11, day=5)
-cal.pack(pady=20)
+root = Tk()
+root.geometry("800x800")
+# nombre de bouton maximum 6 
+def start(nbButton):
 
-def grab_date():
-        mylabel.config(text=cal.get_date())
+    if nbButton <=6:
+        buttons = []
+        rowz = 2
+        for i in range(nbButton):
+            button = Button(root, command=lambda i=i: printtest(i))
+            button.grid(row=rowz, column=19)
+            button.config(height=4, width=20)
+            rowz +=2
+    else:
+        tkinter.messagebox.showerror("Attention !", "Le nombre de boutons doit être inférieur a 6 !")
+        root.destroy()
 
-button1 = Button(root, text= "get date", command=grab_date)
-button1.pack(pady=20)
+#msg erreur 
 
-mylabel = Label(root, text="")
+def printtest(i):
+        print("test ok")
+
+start(6)
+
+col_count, row_count = root.grid_size()
+
+for col in range(col_count):
+    root.grid_columnconfigure(col, minsize=31)
+
+for row in range(row_count):
+    root.grid_rowconfigure(row, minsize=31)
 
 root.mainloop()
