@@ -1,7 +1,7 @@
 import os, glob, time, pathlib, datetime, tkinter.messagebox
-from tkcalendar import Calendar
+from tkcalendar import *    
 from os import startfile
-from tkinter import Tk, Button
+from tkinter import Tk, Button, Label
 
 
 
@@ -65,7 +65,6 @@ def init():
         tkinter.messagebox.showerror("Attention !", "Le nombre de boutons doit être inférieur a 7 !")
         root.destroy()
 
-
 def opentext(x):
     
     x = str(x)
@@ -73,6 +72,12 @@ def opentext(x):
         startfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_" + x + ".txt")
     else:
         tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé " + x + " fois aujourd'hui.")
+
+def setdate():
+    date1 = cal.get_date()
+    if (date1 == today) == True:
+        print("ok")
+
 
 today = str(datetime.datetime.today().date())
 root = Tk()
@@ -84,6 +89,11 @@ d = datetime.date.today()
 cal = Calendar(root, selectmode="day", year=d.year, month=d.month, day=d.day)
 cal.grid(row=2, column= 3, rowspan=5)
 
+datebutton = Button(root, text="Choisissez la date", command=setdate)
+datebutton.grid(row=8, column=3, rowspan=2)
+datebutton.config(height=4, width=20)
+mylabel = Label(root,text="")
+mylabel.grid(row=12, column=3)
 testbutton = Button(root, text="TEST", command=maintest, bg="red")
 testbutton.grid(row=16, column=3, rowspan=2)
 testbutton.config(height=4, width=20)
