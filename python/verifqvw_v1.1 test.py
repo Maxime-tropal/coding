@@ -1,5 +1,5 @@
 import os, glob, time, pathlib, datetime, tkinter.messagebox
-from tkcalendar import *    
+from tkcalendar import *
 from os import startfile
 from tkinter import Tk, Button, Label
 
