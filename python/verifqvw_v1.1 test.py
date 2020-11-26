@@ -1,8 +1,7 @@
 import os, glob, time, pathlib, datetime, tkinter.messagebox
 from tkcalendar import *
 from os import startfile
-from tkinter import Tk, Button, Label
-
+from tkinter import Tk, Button, Label, Toplevel
 
 
 def maintest():
@@ -38,7 +37,15 @@ def maintest():
     for item in repertoires:
         input_dir = item
         my_function(input_dir, output_name)
+    os.startfile(str(output_name))
     exit
+
+#def opennewwindow():
+    #global newWindow
+    #newWindow = Toplevel(root)
+    #newWindow.title("new")
+    #newWindow.geometry("800x850")
+    #init()
 
 def init():
 
@@ -48,14 +55,13 @@ def init():
         files.append(file)
     
     nbfile = len(files)
-    nbfile
 
     if nbfile <=7:
         rowz = 2
         resultat = 1
         for i in range(nbfile):
             i=i+1
-            button = Button(root, text="Resultat " + str(resultat), command=lambda i=i: opentext(i))
+            button = Button(newWindow, text="Resultat " + str(resultat), command=lambda i=i: opentext(i))
             button.grid(row=rowz, column=19)
             button.config(height=4, width=20)
             rowz +=3
@@ -74,26 +80,26 @@ def opentext(x):
         tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé " + x + " fois aujourd'hui.")
 
 def setdate():
-    date1 = cal.get_date()
-    if (date1 == today) == True:
-        print("ok")
-
+    global datechoisie 
+    datechoisie = cal.get_date()
+    datechoisie = datechoisie.replace("/", "-")
+    print(datechoisie)
 
 today = str(datetime.datetime.today().date())
-root = Tk()
-root.geometry("800x850")
 
-init()
+root = Tk()
+root.geometry("370x550")
+root.title("Vérification rechargement des QVW")
 
 d = datetime.date.today()
 cal = Calendar(root, selectmode="day", year=d.year, month=d.month, day=d.day)
 cal.grid(row=2, column= 3, rowspan=5)
 
-datebutton = Button(root, text="Choisissez la date", command=setdate)
+datebutton = Button(root, text="Validez la date", command=setdate)
 datebutton.grid(row=8, column=3, rowspan=2)
 datebutton.config(height=4, width=20)
 mylabel = Label(root,text="")
-mylabel.grid(row=12, column=3)
+mylabel.grid(row=14, column=3)
 testbutton = Button(root, text="TEST", command=maintest, bg="red")
 testbutton.grid(row=16, column=3, rowspan=2)
 testbutton.config(height=4, width=20)
