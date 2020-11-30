@@ -1,8 +1,10 @@
 import os, glob, time, pathlib, datetime, tkinter.messagebox
 from tkcalendar import *
 from os import startfile
-from tkinter import Tk, Button, Label, Toplevel
+from tkinter import Tk, Button, Label, Toplevel, RIGHT
 
+
+global datechoisie
 
 def maintest():
 
@@ -40,12 +42,12 @@ def maintest():
     os.startfile(str(output_name))
     exit
 
-#def opennewwindow():
-    #global newWindow
-    #newWindow = Toplevel(root)
-    #newWindow.title("new")
-    #newWindow.geometry("800x850")
-    #init()
+def opennewwindow():
+    global newWindow
+    newWindow = Toplevel(root)
+    newWindow.title("new")
+    newWindow.geometry("800x850")
+    init()
 
 def init():
 
@@ -57,14 +59,12 @@ def init():
     nbfile = len(files)
 
     if nbfile <=7:
-        rowz = 2
         resultat = 1
         for i in range(nbfile):
             i=i+1
             button = Button(newWindow, text="Resultat " + str(resultat), command=lambda i=i: opentext(i))
-            button.grid(row=rowz, column=19)
+            button.pack(side=RIGHT)
             button.config(height=4, width=20)
-            rowz +=3
             resultat +=1
             
     else:
@@ -80,10 +80,16 @@ def opentext(x):
         tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé " + x + " fois aujourd'hui.")
 
 def setdate():
-    global datechoisie 
     datechoisie = cal.get_date()
+    # conversion de la date au bon format 27-11-2020 -> 2020-11-27
+    # On split le premier format dans une liste, on inverse l'ordre du 1er et dernier item et on le remet dans la l
     datechoisie = datechoisie.replace("/", "-")
-    print(datechoisie)
+    datechoisie = datechoisie.split('-')
+    datechoisie = "-".join(reversed(datechoisie))
+    mylabel.config(text="Date validée !")
+    return(datechoisie)
+
+print(datechoisie)
 
 today = str(datetime.datetime.today().date())
 
@@ -99,8 +105,8 @@ datebutton = Button(root, text="Validez la date", command=setdate)
 datebutton.grid(row=8, column=3, rowspan=2)
 datebutton.config(height=4, width=20)
 mylabel = Label(root,text="")
-mylabel.grid(row=14, column=3)
-testbutton = Button(root, text="TEST", command=maintest, bg="red")
+mylabel.grid(row=9, column=3)
+testbutton = Button(root, text="TEST", command=opennewwindow, bg="red")
 testbutton.grid(row=16, column=3, rowspan=2)
 testbutton.config(height=4, width=20)
 
