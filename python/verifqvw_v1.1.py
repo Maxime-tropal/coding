@@ -94,3 +94,5 @@ for row in range(row_count):
     root.grid_rowconfigure(row, minsize=20)
 
 root.mainloop()
+
+

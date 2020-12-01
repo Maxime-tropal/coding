@@ -1,10 +1,10 @@
 import os, glob, time, pathlib, datetime, tkinter.messagebox
 from tkcalendar import *
 from os import startfile
-from tkinter import Tk, Button, Label, Toplevel, RIGHT
+from tkinter import Tk, Button, Label, Toplevel
 
 
-global datechoisie
+
 
 def maintest():
 
@@ -42,54 +42,78 @@ def maintest():
     os.startfile(str(output_name))
     exit
 
-def opennewwindow():
+def opennewwindow(cal2):
     global newWindow
     newWindow = Toplevel(root)
     newWindow.title("new")
-    newWindow.geometry("800x850")
-    init()
+    #newWindow.geometry("350")
+    init(cal2)
 
-def init():
-
+def init(cal3):
+    dateSelect = setdate(cal3)
     files = []
     os.chdir("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\")
-    for file in glob.glob("*.txt"):
+    for file in glob.glob(dateSelect + "_*.txt"):
         files.append(file)
-    
-    nbfile = len(files)
 
-    if nbfile <=7:
+    nbfile = len(files)
+    def buttonWindows(var):
+        newWindow.geometry(var)
+        rowz = 2
         resultat = 1
         for i in range(nbfile):
             i=i+1
-            button = Button(newWindow, text="Resultat " + str(resultat), command=lambda i=i: opentext(i))
-            button.pack(side=RIGHT)
-            button.config(height=4, width=20)
+            button = Button(newWindow, text="Resultat " + str(resultat), command=lambda i=i: opentext(i,dateSelect))
+            button.grid()
+            button.config(height=3, width=20)
+            rowz +=3
             resultat +=1
-            
-    else:
-        tkinter.messagebox.showerror("Attention !", "Le nombre de boutons doit être inférieur a 7 !")
-        root.destroy()
+    
+        
 
-def opentext(x):
+    if nbfile <=3:
+        buttonWindows("300x175")  
+    elif nbfile <=5:
+        buttonWindows("300x300")
+    elif nbfile <=7:
+        buttonWindows("300x400")
+    elif nbfile <=9:
+        buttonWindows("300x525")
+        
+    else:
+        tkinter.messagebox.showerror("Attention !", "Le nombre de boutons doit être inférieur a 10 !")
+        buttonWindows("300x1000")
+
+def opentext(x, nvdate):
     
     x = str(x)
-    if os.path.isfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_" + x + ".txt") == True:
-        startfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + today + "_" + x + ".txt")
+    if os.path.isfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + nvdate + "_" + x + ".txt") == True:
+        startfile("\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Raport\\" + nvdate + "_" + x + ".txt")
     else:
         tkinter.messagebox.showerror("Attention !", "Le script n'a pas encore été lancé " + x + " fois aujourd'hui.")
 
-def setdate():
-    datechoisie = cal.get_date()
+def setdate(cal4):
+    datechoisie = cal4.get_date()
     # conversion de la date au bon format 27-11-2020 -> 2020-11-27
     # On split le premier format dans une liste, on inverse l'ordre du 1er et dernier item et on le remet dans la l
     datechoisie = datechoisie.replace("/", "-")
     datechoisie = datechoisie.split('-')
     datechoisie = "-".join(reversed(datechoisie))
-    mylabel.config(text="Date validée !")
-    return(datechoisie)
+    
+    return datechoisie 
+    
+def primary1(windows):
+    d = datetime.date.today()
+    cal = Calendar(windows, selectmode="day", year=d.year, month=d.month, day=d.day)
+    cal.grid(row=2, column= 3, rowspan=5)
 
-print(datechoisie)
+    datebutton = Button(windows, text="Validez la date", command=lambda: opennewwindow(cal))
+    datebutton.grid(row=8, column=3, rowspan=2)
+    datebutton.config(height=4, width=20)
+    testbutton = Button(windows, text="TEST", command=maintest, bg="red")
+    testbutton.grid(row=16, column=3, rowspan=2)
+    testbutton.config(height=4, width=20)    
+    
 
 today = str(datetime.datetime.today().date())
 
@@ -97,18 +121,7 @@ root = Tk()
 root.geometry("370x550")
 root.title("Vérification rechargement des QVW")
 
-d = datetime.date.today()
-cal = Calendar(root, selectmode="day", year=d.year, month=d.month, day=d.day)
-cal.grid(row=2, column= 3, rowspan=5)
-
-datebutton = Button(root, text="Validez la date", command=setdate)
-datebutton.grid(row=8, column=3, rowspan=2)
-datebutton.config(height=4, width=20)
-mylabel = Label(root,text="")
-mylabel.grid(row=9, column=3)
-testbutton = Button(root, text="TEST", command=opennewwindow, bg="red")
-testbutton.grid(row=16, column=3, rowspan=2)
-testbutton.config(height=4, width=20)
+primary1(root)
 
 col_count, row_count = root.grid_size()
 
