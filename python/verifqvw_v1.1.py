@@ -48,7 +48,7 @@ def init():
     nbfile = len(files)
     nbfile
 
-    if nbfile <=7:
+    if nbfile <=50:
         rowz = 2
         resultat = 1
         for i in range(nbfile):
