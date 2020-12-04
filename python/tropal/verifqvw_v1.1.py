@@ -45,7 +45,7 @@ def maintest():
 def opennewwindow(cal2):
     global newWindow
     newWindow = Toplevel(root)
-    newWindow.title("new")
+    newWindow.title("Resultats")
     #newWindow.geometry("350")
     init(cal2)
 
@@ -69,8 +69,6 @@ def init(cal3):
             rowz +=3
             resultat +=1
     
-        
-
     if nbfile <=3:
         buttonWindows("300x175")  
     elif nbfile <=5:
