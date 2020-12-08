@@ -49,12 +49,23 @@ def verif():
         # string.find permet de compter le nb d'occurence. if str.find = -1 signifie 'si tu ne trouves aucune occurence' et !=-1 si tu trouves au moins 1
         # occurence dans la string
         # donc ici: champs.find permet de voir si il trouve une valeur identique à une liste de réf, et si oui la remplace par une valeur.
-            for a,b in zip(ccourt,nvccourt):    
-                if champs.find(a) !=1:
-                    liste[7] = b
-                    print(a)
-#elif champs.find(a) not in str(liste[7]):
-                    #ctypes.windll.user32.MessageBoxW(0, "Ces fournisseurs ne sont pas dans le fichier de référence: " + liste[7], "Attention", 1)
+            #while True:
+                #try:
+            print("toto)")
+            temp = str()
+            for a,b in zip(ccourt,nvccourt):
+                if champs.find(a) != -1:
+                    temp = b
+                    print(temp)
+            return (temp)
+          #  print("---"+temp)
+           # if len(temp) >0:
+            #    liste[7]= temp
+                #print(temp)
+            #else:
+                #pass
+                #ctypes.windll.user32.MessageBoxW(0, "Ces fournisseurs ne sont pas dans le fichier de référence: " + liste[7], "Attention", 1)
+                #print("anomalie:" + temp + str(len(temp)))
                            
     
 def lecture():
@@ -88,5 +99,6 @@ def ecriture():
 
 nomtexte = nbtxt(chemintxt)
 verif()
-lecture()
+toto = lecture()
+print("---"+ str(toto)
 #ecriture()
