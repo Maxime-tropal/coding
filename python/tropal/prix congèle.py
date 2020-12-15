@@ -36,15 +36,18 @@ def enregistrement(cal1,prix1):
     change = input1.get()
     for item in liste_modif:
         liste_date.append(item[4])
-        liste_date_modif = liste_date[2::2]
-    for a,b in zip(liste_modif, liste_date_modif):
+    print(liste_date)
+        #liste_date_modif = liste_date[2::2]
+    for a,b in zip(liste_modif, liste_date):
         if change == a[0] and b:
             date1 = datetime.strptime(input_calendar, "%d/%m/%Y").date()
             date2 = date1 - timedelta(days=1)
             strdate = str(date2)
-            item[4]= strdate
+            #print(item[4])
+            #item[4]= strdate
             strdate = strdate.split("-")
             strdate = "-".join(reversed(strdate))
+            #print(item[3])
             
 
 def newWindow():
