@@ -5,6 +5,27 @@ from datetime import datetime, date, timedelta
 
 
 cheminref = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele.csv"
+cheminarchive = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive_prix_congele.csv"
+liste_modif_finale =[]
+
+# prend date du calendrier, enlève 1 jour et appelle fonction
+def jour_avant(input_calendar):
+    date1 = datetime.strptime(input_calendar, "%d/%m/%Y").date()
+    date2 = date1 - timedelta(days=1)
+    date_string = str(date2)
+    date_string = conversion_date(date_string)
+    return date_string
+
+# argument date = type string, conversion en string et retourne au format dd/mm/yyyy
+def conversion_date(date):   
+    
+    date = date.split("-")
+    date = "/".join(reversed(date))
+    return date
+
+
+
+
 def ouverture():
     liste_principale = []
     liste_principale_modif = []
@@ -17,66 +38,83 @@ def ouverture():
 
 def changement():
     liste_ouverture = ouverture()
-    change = input1.get()
-    if change == "":
+    cart = input1.get()
+    if cart == "":
         ctypes.windll.user32.MessageBoxW(0, "Vous devez saisir un code article !", "Attention",1)
     else:
         result = 0
         for item in liste_ouverture:
-            if change == item[0]:
+            if cart == item[0]:
                 result +=1
         if result >0:
             newWindow()
-
-def enregistrement(cal1,prix1):
-    liste_date_Fin = []
-    input_calendar = cal1.get_date()
-    input_prix2 = prix1.get()
-    liste_modif = ouverture()
-    liste_modif2 =[]
-    change = input1.get()
-    for item in liste_modif:
-        if change == item[0]:
-            dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
-            liste_date_Fin.append(dateFin)
-    maxDateFin = max(liste_date_Fin)
-    maxDateFin = str(maxDateFin)
-    maxDateFin = maxDateFin.split("-")
-    maxDateFin = "/".join(reversed(maxDateFin))
-    for item in liste_modif:
-        if change == item[0] and item[4]==maxDateFin:
-            item[4]=conversion_date(input_calendar)
-            
-        liste_modif2.append([item[0], item[1], item[2], item[3], item[4]])
-
-    print(liste_modif2)
-
-
-
-
-# prend date du calendrier, enlève 1 jour et appelle fonction
-def jour_avant(input_calendar):
-    date1 = datetime.strptime(input_calendar, "%d/%m/%Y").date()
-    date2 = date1 - timedelta(days=1)
-    conversion_date(input_calendar)
-
-
-# argument date = type date, conversion en string et retourne au format dd/mm/yyyy
-def conversion_date(date):   
-    strdate = str(date)
-    strdate = strdate.split("-")
-    strdate = "/".join(reversed(strdate))
-    return strdate
-
+        else:
+            newWindow()
+        # bouton oui non , si oui newwindows, si non revenir saisie 
 def newWindow():
     new_window = Toplevel(root)
     input_prix = Entry(new_window)
     d = date.today()
-    bouton_valide = Button(new_window, text="Validez", command=lambda: enregistrement(cal, input_prix))
+    bouton_valide = Button(new_window, text="Validez", command=lambda: validation(cal, input_prix))
     cal = Calendar(new_window, selectmode="day", year=d.year, month=d.month, day=d.day)
     cal.pack()
     input_prix.pack()
     bouton_valide.pack()
+
+
+
+
+def enregistrement_prix_old(cal1,cart):
+    liste_date_Fin = []
+    liste_modif = ouverture()
+    for item in liste_modif:
+        if cart == item[0]:
+            dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
+            liste_date_Fin.append(dateFin)
+    maxDateFin = max(liste_date_Fin)
+    maxDateFin = str(maxDateFin)
+    maxDateFin = conversion_date(maxDateFin)
+    for item in liste_modif:
+        if cart == item[0] and item[4]==maxDateFin:
+            item[4]=jour_avant(conversion_date(cal1))
+            
+        liste_modif_finale.append([item[0], item[1], item[2], item[3], item[4]])
+
+def valide_argument(argument,ckoi):
+    if argument == "":
+        ctypes.windll.user32.MessageBoxW(0, f"Vous devez saisir un {ckoi} !", "Attention",1)
+    if ckoi=="prix":
+        print(type(argument))
+        argument = float(argument)
+        return("ok")
+        #si erreur faire remonter sur ecran
+
+def ecriture():
+    os.rename(cheminref, cheminarchive )
+    with open(cheminref,"w") as f:
+        for element in liste_modif_finale:
+            for item in element:
+                print(item)
+                #f.write(item)
+
+def validation(cal1,prix1):
+    # validation des arguments
+    input_prix = prix1.get()
+    input_cart = input1.get()
+    input_calendar = cal1.get_date()
+
+    if valide_argument(input_prix,"prix") == "ok":
+        # modifier la dernière date de fin 
+        enregistrement_prix_old(input_calendar,input_cart)
+        liste_modif_finale.append([input_cart, "",input_prix , input_calendar, "31/12/2999" ])
+        ecriture()
+        print('ok')
+
+    # vérification de la cohérence de la demande (si la date que l'on veut modifier est antérieur à une date déjà saisie sur code article) 
+    
+    
+    # ajout de la date et du prix souhaité 
+    #print(liste_modif_finale)
 
 root = Tk()
 root.geometry("300x250")
