@@ -29,26 +29,44 @@ def changement():
             newWindow()
 
 def enregistrement(cal1,prix1):
-    liste_date = []
+    liste_date_Fin = []
     input_calendar = cal1.get_date()
     input_prix2 = prix1.get()
     liste_modif = ouverture()
+    liste_modif2 =[]
     change = input1.get()
     for item in liste_modif:
-        liste_date.append(item[4])
-    print(liste_date)
-        #liste_date_modif = liste_date[2::2]
-    for a,b in zip(liste_modif, liste_date):
-        if change == a[0] and b:
-            date1 = datetime.strptime(input_calendar, "%d/%m/%Y").date()
-            date2 = date1 - timedelta(days=1)
-            strdate = str(date2)
-            #print(item[4])
-            #item[4]= strdate
-            strdate = strdate.split("-")
-            strdate = "-".join(reversed(strdate))
-            #print(item[3])
+        if change == item[0]:
+            dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
+            liste_date_Fin.append(dateFin)
+    maxDateFin = max(liste_date_Fin)
+    maxDateFin = str(maxDateFin)
+    maxDateFin = maxDateFin.split("-")
+    maxDateFin = "/".join(reversed(maxDateFin))
+    for item in liste_modif:
+        if change == item[0] and item[4]==maxDateFin:
+            item[4]=conversion_date(input_calendar)
             
+        liste_modif2.append([item[0], item[1], item[2], item[3], item[4]])
+
+    print(liste_modif2)
+
+
+
+
+# prend date du calendrier, enlève 1 jour et appelle fonction
+def jour_avant(input_calendar):
+    date1 = datetime.strptime(input_calendar, "%d/%m/%Y").date()
+    date2 = date1 - timedelta(days=1)
+    conversion_date(input_calendar)
+
+
+# argument date = type date, conversion en string et retourne au format dd/mm/yyyy
+def conversion_date(date):   
+    strdate = str(date)
+    strdate = strdate.split("-")
+    strdate = "/".join(reversed(strdate))
+    return strdate
 
 def newWindow():
     new_window = Toplevel(root)
@@ -59,8 +77,6 @@ def newWindow():
     cal.pack()
     input_prix.pack()
     bouton_valide.pack()
-
-
 
 root = Tk()
 root.geometry("300x250")
