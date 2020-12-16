@@ -28,6 +28,52 @@ def conversion_date(date):
 
 
 # --------------------------------fenettre ---------------------------
+
+def newWindow():
+    new_window = Toplevel(root)
+    input_prix = Entry(new_window)
+    d = date.today()
+    bouton_valide = Button(new_window, text="Validez", command=lambda: validation(cal, input_prix,new_window))
+    cal = Calendar(new_window, selectmode="day", year=d.year, month=d.month, day=d.day)
+    cal.pack()
+    input_prix.pack()
+    bouton_valide.pack()
+
+def WindowErr(textes):
+    WindowErr = Toplevel(root)
+    label1 =Label(WindowErr,text=textes)
+    bouton_oui = Button(WindowErr, text="oui", command=lambda: OK(WindowErr))
+    bouton_non = Button(WindowErr, text="non", command=lambda: kill(WindowErr))
+    label1.pack()
+    bouton_oui.pack()
+    bouton_non.pack()
+    
+def OK(Windowss):
+    Windowss.destroy()
+    newWindow()
+
+def kill(Windowss):
+    Windowss.destroy()
+
+
+
+#--------------------------------Applicatif----------------------------
+#retourne une liste de toutes les date de debut ou de fin (suivant argment 2) concernant l'article passer en argument 
+def listeDate(cart,quand):
+    listeDateReturn=[]
+    liste_modif = ouverture()
+    
+    if quand=="fin":
+        for item in liste_modif:
+            if cart == item[0]:
+                listeDateReturn.append(datetime.strptime(item[4], "%d/%m/%Y").date())
+    elif quand=="debut":
+        for item in liste_modif:
+            if cart == item[0]:
+                listeDateReturn.append(datetime.strptime(item[3], "%d/%m/%Y").date())
+    
+    return listeDateReturn
+
 def ouverture():
     liste_principale = []
     liste_principale_modif = []
@@ -65,50 +111,11 @@ def changement():
                 break
         # bouton oui non , si oui newwindows, si non revenir saisie 
 
-def newWindow():
-    new_window = Toplevel(root)
-    input_prix = Entry(new_window)
-    d = date.today()
-    bouton_valide = Button(new_window, text="Validez", command=lambda: validation(cal, input_prix))
-    cal = Calendar(new_window, selectmode="day", year=d.year, month=d.month, day=d.day)
-    cal.pack()
-    input_prix.pack()
-    bouton_valide.pack()
-
-def WindowErr(textes):
-    WindowErr = Toplevel(root)
-    label1 =Label(WindowErr,text=textes)
-    bouton_oui = Button(WindowErr, text="oui", command=lambda: OK(WindowErr))
-    bouton_non = Button(WindowErr, text="non", command=lambda: kill(WindowErr))
-    label1.pack()
-    bouton_oui.pack()
-    bouton_non.pack()
-    
-def OK(Windowss):
-    Windowss.destroy()
-    newWindow()
-
-def kill(Windowss):
-    Windowss.destroy()
-
-
-
-#--------------------------------Applicatif----------------------------
-#retourne une liste de toutes les date de fin concernant l'article passer en argument 
-def listeDateFin(cart):
-    listeDateReturn=[]
-    liste_modif = ouverture()
-    for item in liste_modif:
-        if cart == item[0]:
-            listeDateReturn.append(datetime.strptime(item[4], "%d/%m/%Y").date())
-    return listeDateReturn
-           
-
-
 def enregistrement_prix_old(cal1,cart):
     if result != 0:
-        liste_date_Fin = listeDateFin(cart)
-        maxDateFin = conversion_date(str(max(liste_date_Fin)))
+        liste_date_Fin = listeDate(cart,"fin")
+        maxDateFin = str(max(liste_date_Fin))
+        maxDateFin = conversion_date(maxDateFin)
         print(maxDateFin)
         liste_modif = ouverture() 
         for item in liste_modif:
@@ -126,7 +133,14 @@ def valide_argument(argument,ckoi):
         #si erreur faire remonter sur ecran
 
 def valideCohé(Cart,Cal):
-    return True
+    retour = True
+    listeDesDatesDebut =  listeDate(Cart,"debut")
+    cal = datetime.strptime(Cal, "%d/%m/%Y").date()
+    for item in listeDesDatesDebut:
+        if cal<item:
+            retour = False
+
+    return retour
 
 def ecriture():
     d = str(datetime.today())[0:10] + "_" + str(datetime.today())[11:19]
@@ -139,7 +153,7 @@ def ecriture():
             f.write(element[0]+";"+element[1]+";"+element[2]+";"+element[3]+";"+element[4]+";"+"\n")
             
 
-def validation(cal1,prix1):
+def validation(cal1,prix1,new_window):
     # validation des arguments
     input_prix = prix1.get()
     input_cart = input1.get()
@@ -148,10 +162,14 @@ def validation(cal1,prix1):
     if valide_argument(input_prix,"prix") == "ok":
         # vérification de la cohérence de la demande (si la date que l'on veut modifier est antérieur à une date déjà saisie sur code article)
         if valideCohé(input_cart,input_calendar):
-        # modifier la dernière date de fin 
-            enregistrement_prix_old(input_calendar,input_cart)
-            liste_modif_finale.append([input_cart, "",input_prix , input_calendar, "31/12/2999" ])
-            ecriture()
+            enregistrement_prix_old(input_calendar,input_cart)# modifier la dernière date de fin 
+            liste_modif_finale.append([input_cart, "",input_prix , input_calendar, "31/12/2999" ]) #ajout notre ligne
+            ecriture()#change d'emplacement l'ancien fichier et recréer un fichier complet avec les modifications 
+            ctypes.windll.user32.MessageBoxW(0, "L'ajout d'un prix de cession a bien été éffectué !!", "Bravo", 1)
+            new_window.destroy()
+        else:
+            ctypes.windll.user32.MessageBoxW(0, "la date saisie fait deja partie d'un prix actif et ne peux etre modifier", "Attention", 1)
+
         
 
     
