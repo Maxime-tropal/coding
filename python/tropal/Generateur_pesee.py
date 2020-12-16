@@ -57,6 +57,7 @@ def lecture():
                     
             ligne = ';'.join(liste)
             listefinale.append(ligne)
+            print(listefinale)
 
 def ecriture():
     os.rename(chemintxt + nomtexte, archive + nomtexte )

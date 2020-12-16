@@ -61,9 +61,6 @@ def newWindow():
     input_prix.pack()
     bouton_valide.pack()
 
-
-
-
 def enregistrement_prix_old(cal1,cart):
     liste_date_Fin = []
     liste_modif = ouverture()
@@ -71,31 +68,40 @@ def enregistrement_prix_old(cal1,cart):
         if cart == item[0]:
             dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
             liste_date_Fin.append(dateFin)
-    maxDateFin = max(liste_date_Fin)
-    maxDateFin = str(maxDateFin)
-    maxDateFin = conversion_date(maxDateFin)
-    for item in liste_modif:
-        if cart == item[0] and item[4]==maxDateFin:
-            item[4]=jour_avant(conversion_date(cal1))
-            
-        liste_modif_finale.append([item[0], item[1], item[2], item[3], item[4]])
+    while True:
+            try:
+                maxDateFin = max(liste_date_Fin)
+                maxDateFin = str(maxDateFin)
+                maxDateFin = conversion_date(maxDateFin)
+                for item in liste_modif:
+                    if cart == item[0] and item[4]==maxDateFin:
+                        item[4]=jour_avant(conversion_date(cal1))
+                        break
+            except ValueError:
+                ctypes.windll.user32.MessageBoxW(0, "Le fichier prix_congèle est incorrect !", "Attention",1)
+                exit()
+
+    liste_modif_finale.append([item[0], item[1], item[2], item[3], item[4]])
 
 def valide_argument(argument,ckoi):
-    if argument == "":
-        ctypes.windll.user32.MessageBoxW(0, f"Vous devez saisir un {ckoi} !", "Attention",1)
-    if ckoi=="prix":
-        print(type(argument))
-        argument = float(argument)
-        return("ok")
-        #si erreur faire remonter sur ecran
+    erreurs = 0
+    while True:
+            try:
+                if argument == "":
+                    ctypes.windll.user32.MessageBoxW(0, f"Vous devez saisir un {ckoi} !", "Attention",1)
+                    erreur +=1
+                    break
+                if ckoi=="prix":
+                    argument = float(argument)
+                    return("ok")
+                    #si erreur faire remonter sur ecran
 
 def ecriture():
-    os.rename(cheminref, cheminarchive )
     with open(cheminref,"w") as f:
         for element in liste_modif_finale:
-            for item in element:
-                print(item)
-                #f.write(item)
+            print(element)
+            f.write(element)  
+    os.rename(cheminref, cheminarchive)
 
 def validation(cal1,prix1):
     # validation des arguments
@@ -124,3 +130,20 @@ input1 = Entry(root)
 button_changer.pack()
 input1.pack()
 root.mainloop()
+
+
+### PROBLEMES ###
+#
+#
+##  mettre une erreur si il y a un problème avec le fichier excel  --- ok
+## trouver une solution pour lancer plusieurs fois le script en prenant compte du changement de nom du fichier excel
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
