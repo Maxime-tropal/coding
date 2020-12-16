@@ -3,11 +3,13 @@ from tkinter import Tk, Button, Label, Toplevel, Entry
 from tkcalendar import *
 from datetime import datetime, date, timedelta
 
-cheminref2 = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele2.csv"
+d = date.today()
+
+#cheminref2 = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele2.csv"
 cheminref = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele.csv"
-cheminarchive = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive_prix_congele.csv"
+cheminarchive = f"\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive\\prix_congele_{d}.csv"
 liste_modif_finale =[]
-result = 0
+
 
 # prend date du calendrier, enlève 1 jour et appelle fonction
 def jour_avant(input_calendar):
@@ -35,19 +37,20 @@ def ouverture():
         return(liste_principale_modif)
 
 def changement():
+    global result
     liste_ouverture = ouverture()
     cart = input1.get()
-    result = 0
     while True:
         try:
             for item in liste_ouverture:
                 if cart == item[0]:
                     result +=1
-                if cart != item[0]:
-                    raise ValueError
+                
             if result >0:
                 newWindow()
                 break
+            else:
+                raise ValueError
         except ValueError:
             try:
                 if int(cart) != ValueError:
@@ -111,9 +114,11 @@ def valide_argument(argument,ckoi):
         #si erreur faire remonter sur ecran
 
 def ecriture():
-    #os.rename(cheminref, cheminarchive )
-    with open(cheminref2,"w") as f:
+    os.rename(cheminref, cheminarchive)
+    with open(cheminref,"w+") as f:
         for element in liste_modif_finale:
+            element[2] = element[2].split(".")
+            element[2] = ",".join(element[2])
             f.write(element[0]+";"+element[1]+";"+element[2]+";"+element[3]+";"+element[4]+";"+"\n")
             
 
@@ -140,4 +145,5 @@ button_changer = Button(text= "Changer", command=changement)
 input1 = Entry(root)
 button_changer.pack()
 input1.pack()
+result = 0
 root.mainloop()
