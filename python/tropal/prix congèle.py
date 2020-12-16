@@ -9,7 +9,7 @@ cheminref = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele.csv
 cheminarchive = f"\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive\\"
 liste_modif_finale =[]
 
-
+#--------------------------------Universel-------------------------------
 # prend date du calendrier, enlève 1 jour et appelle fonction
 def jour_avant(input_calendar):
     date1 = datetime.strptime(input_calendar, "%d/%m/%Y").date()
@@ -25,6 +25,9 @@ def conversion_date(date):
     date = "/".join(reversed(date))
     return date
 
+
+
+# --------------------------------fenettre ---------------------------
 def ouverture():
     liste_principale = []
     liste_principale_modif = []
@@ -47,7 +50,7 @@ def changement():
                     result +=1
                 
             if result >0:
-                print(result)
+                
                 newWindow()
                 break
             else:
@@ -61,7 +64,6 @@ def changement():
                 ctypes.windll.user32.MessageBoxW(0, "Code article invalide !", "Attention", 1)
                 break
         # bouton oui non , si oui newwindows, si non revenir saisie 
-
 
 def newWindow():
     new_window = Toplevel(root)
@@ -89,25 +91,31 @@ def OK(Windowss):
 def kill(Windowss):
     Windowss.destroy()
 
-def enregistrement_prix_old(cal1,cart):
-    liste_date_Fin = []
+
+
+#--------------------------------Applicatif----------------------------
+#retourne une liste de toutes les date de fin concernant l'article passer en argument 
+def listeDateFin(cart):
+    listeDateReturn=[]
     liste_modif = ouverture()
-    if result != 0:
-        for item in liste_modif:
-            if cart == item[0]:
-                dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
-                liste_date_Fin.append(dateFin)
-                print(liste_date_Fin)
-        maxDateFin = max(liste_date_Fin)
-        maxDateFin = str(maxDateFin)
-        print(maxDateFin)
-        maxDateFin = conversion_date(maxDateFin)
     for item in liste_modif:
-        if result != 0:
-            if cart == item[0] and item[4]==maxDateFin:
-                item[4]=jour_avant(conversion_date(cal1))
-            
-        liste_modif_finale.append([item[0], item[1], item[2], item[3], item[4]])
+        if cart == item[0]:
+            listeDateReturn.append(datetime.strptime(item[4], "%d/%m/%Y").date())
+    return listeDateReturn
+           
+
+
+def enregistrement_prix_old(cal1,cart):
+    if result != 0:
+        liste_date_Fin = listeDateFin(cart)
+        maxDateFin = conversion_date(str(max(liste_date_Fin)))
+        print(maxDateFin)
+        liste_modif = ouverture() 
+        for item in liste_modif:
+            if result != 0:
+                if cart == item[0] and item[4]==maxDateFin:
+                    item[4]=jour_avant(conversion_date(cal1))  
+            liste_modif_finale.append([item[0], item[1], item[2], item[3], item[4]])
 
 def valide_argument(argument,ckoi):
     if argument == "":
@@ -116,6 +124,9 @@ def valide_argument(argument,ckoi):
         argument = float(argument)
         return("ok")
         #si erreur faire remonter sur ecran
+
+def valideCohé(Cart,Cal):
+    return True
 
 def ecriture():
     d = str(datetime.today())[0:10] + "_" + str(datetime.today())[11:19]
@@ -135,14 +146,18 @@ def validation(cal1,prix1):
     input_calendar = cal1.get_date()
 
     if valide_argument(input_prix,"prix") == "ok":
+        # vérification de la cohérence de la demande (si la date que l'on veut modifier est antérieur à une date déjà saisie sur code article)
+        if valideCohé(input_cart,input_calendar):
         # modifier la dernière date de fin 
-        
-        enregistrement_prix_old(input_calendar,input_cart)
-        liste_modif_finale.append([input_cart, "",input_prix , input_calendar, "31/12/2999" ])
-        ecriture()
+            enregistrement_prix_old(input_calendar,input_cart)
+            liste_modif_finale.append([input_cart, "",input_prix , input_calendar, "31/12/2999" ])
+            ecriture()
         
 
-    # vérification de la cohérence de la demande (si la date que l'on veut modifier est antérieur à une date déjà saisie sur code article) 
+    
+
+
+
 
 root = Tk()
 root.geometry("300x250")
