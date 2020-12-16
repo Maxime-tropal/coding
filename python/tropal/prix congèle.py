@@ -23,9 +23,6 @@ def conversion_date(date):
     date = "/".join(reversed(date))
     return date
 
-
-
-
 def ouverture():
     liste_principale = []
     liste_principale_modif = []
@@ -36,20 +33,44 @@ def ouverture():
             liste_principale_modif.append(liste_principale)
         return(liste_principale_modif)
 
+def choix_nvcart(cart1):
+    windowerreur = Toplevel(root)
+    label1= Label(windowerreur, text=f"Voulez vous créer le code article {cart1} ou quitter ?")
+    bouton_oui = Button(windowerreur, text="oui", command=ok1)
+    bouton_non = Button(windowerreur, text="non", command=lambda: killchoix_nvcart(windowerreur))
+    label1.pack()
+    bouton_non.pack()
+    bouton_oui.pack()
+
+def ok1():
+    print("ok")
+
+def killchoix_nvcart(fenetre):
+    fenetre.destroy()
+
+
 def changement():
     liste_ouverture = ouverture()
     cart = input1.get()
-    if cart == "":
-        ctypes.windll.user32.MessageBoxW(0, "Vous devez saisir un code article !", "Attention",1)
-    else:
-        result = 0
-        for item in liste_ouverture:
-            if cart == item[0]:
-                result +=1
-        if result >0:
-            newWindow()
-        else:
-            newWindow()
+    result = 0
+    while True:
+        try:
+            for item in liste_ouverture:
+                if cart == item[0]:
+                    result +=1
+                if cart != item[0]:
+                    raise ValueError
+            if result >0:
+                newWindow()
+                break
+        except ValueError:
+            try:
+                if int(cart) != ValueError:
+                    choix_nvcart(cart)
+                    break
+            except:
+                ctypes.windll.user32.MessageBoxW(0, "Code article invalide !", "Attention", 1)
+                break
         # bouton oui non , si oui newwindows, si non revenir saisie 
 def newWindow():
     new_window = Toplevel(root)
@@ -60,9 +81,6 @@ def newWindow():
     cal.pack()
     input_prix.pack()
     bouton_valide.pack()
-
-
-
 
 def enregistrement_prix_old(cal1,cart):
     liste_date_Fin = []
@@ -93,12 +111,8 @@ def ecriture():
     #os.rename(cheminref, cheminarchive )
     with open(cheminref2,"w") as f:
         for element in liste_modif_finale:
-            #print(element[0],element[1],element[2],element[3],element[4])
             f.write(element[0]+";"+element[1]+";"+element[2]+";"+element[3]+";"+element[4]+";"+"\n")
             
-            #for item in element:
-               # print(item)
-                #f.write(item)
 
 def validation(cal1,prix1):
     # validation des arguments
@@ -114,10 +128,6 @@ def validation(cal1,prix1):
         print('ok')
 
     # vérification de la cohérence de la demande (si la date que l'on veut modifier est antérieur à une date déjà saisie sur code article) 
-    
-    
-    # ajout de la date et du prix souhaité 
-    #print(liste_modif_finale)
 
 root = Tk()
 root.geometry("300x250")
