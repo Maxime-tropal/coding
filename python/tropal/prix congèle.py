@@ -7,6 +7,7 @@ cheminref2 = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele2.c
 cheminref = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele.csv"
 cheminarchive = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive_prix_congele.csv"
 liste_modif_finale =[]
+result = 0
 
 # prend date du calendrier, enlève 1 jour et appelle fonction
 def jour_avant(input_calendar):
@@ -33,22 +34,6 @@ def ouverture():
             liste_principale_modif.append(liste_principale)
         return(liste_principale_modif)
 
-def choix_nvcart(cart1):
-    windowerreur = Toplevel(root)
-    label1= Label(windowerreur, text=f"Voulez vous créer le code article {cart1} ou quitter ?")
-    bouton_oui = Button(windowerreur, text="oui", command=ok1)
-    bouton_non = Button(windowerreur, text="non", command=lambda: killchoix_nvcart(windowerreur))
-    label1.pack()
-    bouton_non.pack()
-    bouton_oui.pack()
-
-def ok1():
-    print("ok")
-
-def killchoix_nvcart(fenetre):
-    fenetre.destroy()
-
-
 def changement():
     liste_ouverture = ouverture()
     cart = input1.get()
@@ -66,12 +51,13 @@ def changement():
         except ValueError:
             try:
                 if int(cart) != ValueError:
-                    choix_nvcart(cart)
+                    WindowErr(f"Voulez vous créer le code article {cart} ou quitter ?")
                     break
             except:
                 ctypes.windll.user32.MessageBoxW(0, "Code article invalide !", "Attention", 1)
                 break
         # bouton oui non , si oui newwindows, si non revenir saisie 
+
 def newWindow():
     new_window = Toplevel(root)
     input_prix = Entry(new_window)
@@ -82,19 +68,37 @@ def newWindow():
     input_prix.pack()
     bouton_valide.pack()
 
+def WindowErr(textes):
+    WindowErr = Toplevel(root)
+    label1 =Label(WindowErr,text=textes)
+    bouton_oui = Button(WindowErr, text="oui", command=lambda: OK(WindowErr))
+    bouton_non = Button(WindowErr, text="non", command=lambda: kill(WindowErr))
+    label1.pack()
+    bouton_oui.pack()
+    bouton_non.pack()
+    
+def OK(Windowss):
+    Windowss.destroy()
+    newWindow()
+
+def kill(Windowss):
+    Windowss.destroy()
+
 def enregistrement_prix_old(cal1,cart):
     liste_date_Fin = []
     liste_modif = ouverture()
+    if result != 0:
+        for item in liste_modif:
+            if cart == item[0]:
+                dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
+                liste_date_Fin.append(dateFin)
+        maxDateFin = max(liste_date_Fin)
+        maxDateFin = str(maxDateFin)
+        maxDateFin = conversion_date(maxDateFin)
     for item in liste_modif:
-        if cart == item[0]:
-            dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
-            liste_date_Fin.append(dateFin)
-    maxDateFin = max(liste_date_Fin)
-    maxDateFin = str(maxDateFin)
-    maxDateFin = conversion_date(maxDateFin)
-    for item in liste_modif:
-        if cart == item[0] and item[4]==maxDateFin:
-            item[4]=jour_avant(conversion_date(cal1))
+        if result != 0:
+            if cart == item[0] and item[4]==maxDateFin:
+                item[4]=jour_avant(conversion_date(cal1))
             
         liste_modif_finale.append([item[0], item[1], item[2], item[3], item[4]])
 
@@ -102,7 +106,6 @@ def valide_argument(argument,ckoi):
     if argument == "":
         ctypes.windll.user32.MessageBoxW(0, f"Vous devez saisir un {ckoi} !", "Attention",1)
     if ckoi=="prix":
-        print(type(argument))
         argument = float(argument)
         return("ok")
         #si erreur faire remonter sur ecran
@@ -122,10 +125,11 @@ def validation(cal1,prix1):
 
     if valide_argument(input_prix,"prix") == "ok":
         # modifier la dernière date de fin 
+        
         enregistrement_prix_old(input_calendar,input_cart)
         liste_modif_finale.append([input_cart, "",input_prix , input_calendar, "31/12/2999" ])
         ecriture()
-        print('ok')
+        
 
     # vérification de la cohérence de la demande (si la date que l'on veut modifier est antérieur à une date déjà saisie sur code article) 
 
