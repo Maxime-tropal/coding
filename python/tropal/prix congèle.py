@@ -116,6 +116,9 @@ def validation(cal1,prix1):
     # ajout de la date et du prix souhaité 
     #print(liste_modif_finale)
 
+
+
+
 root = Tk()
 root.geometry("300x250")
 
