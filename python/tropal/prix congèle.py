@@ -3,7 +3,7 @@ from tkinter import Tk, Button, Label, Toplevel, Entry
 from tkcalendar import *
 from datetime import datetime, date, timedelta
 
-
+cheminref2 = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele2.csv"
 cheminref = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele.csv"
 cheminarchive = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive_prix_congele.csv"
 liste_modif_finale =[]
@@ -90,11 +90,14 @@ def valide_argument(argument,ckoi):
         #si erreur faire remonter sur ecran
 
 def ecriture():
-    os.rename(cheminref, cheminarchive )
-    with open(cheminref,"w") as f:
+    #os.rename(cheminref, cheminarchive )
+    with open(cheminref2,"w") as f:
         for element in liste_modif_finale:
-            for item in element:
-                print(item)
+            #print(element[0],element[1],element[2],element[3],element[4])
+            f.write(element[0]+";"+element[1]+";"+element[2]+";"+element[3]+";"+element[4]+";"+"\n")
+            
+            #for item in element:
+               # print(item)
                 #f.write(item)
 
 def validation(cal1,prix1):
