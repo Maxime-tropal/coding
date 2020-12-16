@@ -3,11 +3,10 @@ from tkinter import Tk, Button, Label, Toplevel, Entry
 from tkcalendar import *
 from datetime import datetime, date, timedelta
 
-d = date.today()
 
 #cheminref2 = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele2.csv"
 cheminref = "\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\prix_congele.csv"
-cheminarchive = f"\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive\\prix_congele_{d}.csv"
+cheminarchive = f"\\\\10.2.30.61\\c$\\Qlikview_Tropal\\Referentiels\\archive\\"
 liste_modif_finale =[]
 
 
@@ -38,6 +37,7 @@ def ouverture():
 
 def changement():
     global result
+    result=0
     liste_ouverture = ouverture()
     cart = input1.get()
     while True:
@@ -47,6 +47,7 @@ def changement():
                     result +=1
                 
             if result >0:
+                print(result)
                 newWindow()
                 break
             else:
@@ -60,6 +61,7 @@ def changement():
                 ctypes.windll.user32.MessageBoxW(0, "Code article invalide !", "Attention", 1)
                 break
         # bouton oui non , si oui newwindows, si non revenir saisie 
+
 
 def newWindow():
     new_window = Toplevel(root)
@@ -95,8 +97,10 @@ def enregistrement_prix_old(cal1,cart):
             if cart == item[0]:
                 dateFin = datetime.strptime(item[4], "%d/%m/%Y").date()
                 liste_date_Fin.append(dateFin)
+                print(liste_date_Fin)
         maxDateFin = max(liste_date_Fin)
         maxDateFin = str(maxDateFin)
+        print(maxDateFin)
         maxDateFin = conversion_date(maxDateFin)
     for item in liste_modif:
         if result != 0:
@@ -114,7 +118,9 @@ def valide_argument(argument,ckoi):
         #si erreur faire remonter sur ecran
 
 def ecriture():
-    os.rename(cheminref, cheminarchive)
+    d = str(datetime.today())[0:10] + "_" + str(datetime.today())[11:19]
+    d = d.replace(":", "-")
+    os.rename(cheminref , cheminarchive + f"prix_congele_{d}.csv")
     with open(cheminref,"w+") as f:
         for element in liste_modif_finale:
             element[2] = element[2].split(".")
