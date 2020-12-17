@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset="UTF-8"> <!--définit le type de caractères utilisés-->
+    <meta name="description" content="hell yeah site"> <!--permet d'ajouter une description du site-->
+    <title>Cours HTML</title>
+ </head>
+
+ <body style="background-color: lightblue;">
+<body>
+    <header>
+        <nav> <!--differents liens vers autres pages vont dans ce tag-->
+
+        </nav>
+
+    </header>
+
+    <main>
+        <input type="text"/>
+        <input type="password"/>
+        <h1>Titre, différence de taille, h1 est le plus gros, h6 le plus petit</h1>
+        <hr/> <!--permet de mettre une ligne de séparation-->
+        <p>< p > signifie un paragraphe</p>
+        <p>< big > et < small > <big>met le texte en gros ou <small>en petit</small></big></p>
+    
+        <h2>Style et couleurs</h2>
+        <p style="color:darkgreen; background-color: gold;">Très joli</p>
+
+        <article> <!--structure article pour un blog par exemple-->
+            <section>
+                <p>c'est un article</p> 
+            </section>
+            <section>
+                <p>c'est un a-r-t-i-c-l-e</p>
+            </section>
+        </article>
+
+        <aside> <!-- tag qui dit que ce qui est a l'interieur est montré mais n'est pas en rapport avec le site ex des pub-->            
+        </aside>
+
+        <a href="https://google.fr" target="_blank">Click me</a> <!--target="_blank" ouvre sur un nouvel onglet-->
+        <a href="page2.html">No click me</a>
+        <p><img width="300" height="250" src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="malaise"></p>
+        <video width="500" src="Création OF.mkv" controls>Création Of tuto</video> <!-- mettre controls pour avoir les bouton fullscreen son...-->
+        <!--"poster=" pour mettre une thumbnail, loop...-->
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/4zjXCn95kRs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- iframe permet l'intégration de vidéos d'autres site ex Youtube.-->
+    
+        <h1>Les Listes</h1>
+
+        <ul>
+            <!-- liste pas organisée-->
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>PYTHON</li>
+            <li>PHP</li>
+        </ul>
+        <ol type="A">
+            <!--liste organisée-->
+            <li>HTML</li>
+            <li>CSS</li>
+                <ol type="1">
+                    <li>Liste imbriquée </li>
+                    <li>Liste imbriquée </li>
+                    <li>Liste imbriquée </li>
+                </ol>
+            <li>PYTHON</li>
+            <li>PHP</li>    
+        </ol>    
+    
+        <dl> <!-- liste qui permet d'ajouter une description de ses items-->
+            <dt>fufbaufbaefba</dt>
+            <dd>?????</dd>
+        </dl>
+
+        <h1>Les tables</h1>
+
+        <table>
+            <thead>
+            <tr> <!-- tr est une ligne et td une colonne, th = table header, titre de colonne par ex-->  
+                <th>Yeah ?????</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="2">Yeah1</td>
+                <td>Yeah2</td>
+                <td>Yeah3</td>
+            </tr>
+            </tbody>
+        </table>
+        <h1>Div et Span</h1>
+
+        <a href="#">lien1</a>
+        <a href="#">lien2</a>
+        <p>Les liens sont des elements "inline", ils peuvent être mis côte a côte</p>
+        <p>Les paragraphes sont des elements "block", ils ne peuvent pas être mis côte a côte</p>
+        <p>Pareil pour span = inline et div = block</p>
+
+        <input type="date"/>
+        <input type="file">
+        <textarea cols="30" rows="10"> <!--zone de texte vide-->
+            enter a paragraph
+        </textarea>
+
+        <input name="btn" type="radio">
+        <input name="btn1" type="radio">
+    </main>
+
+    <footer>
+
+ 
+    </footer>
+    
+
+
+</body>
+</html>
