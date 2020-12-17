@@ -1,6 +1,6 @@
 import discord, os, requests, json, random
 
-Token = "Nzg5MjIwMTEwNjU2OTk1MzI4.X9u4gQ.OI90qdQm0mTYLSkQSIYu5KV9wwQ" #mot de passe du bot
+Token = "Nzg5MjIwMTEwNjU2OTk1MzI4.X9u4gQ.sgog4GWfoxesk7VtIEVG51A8JoU" #mot de passe du bot
 client = discord.Client() #indique qu'on utilise le client discord
 
 words = ["post", "eussou", "boucle", "forum", "terraria"]
