@@ -2,6 +2,10 @@
 <html>
  <head>
     <meta charset="UTF-8"> <!--définit le type de caractères utilisés-->
+    <meta name="author" content="Maxime">
+    <meta name="keywords" content="HTML, tutorial">
+    <meta name="viewport" content="width=device=width, initial-scale=1.0"> <!--controle comment le site est affiché, ici s'adapte
+                                                                                automatiquement et se met a un zoom 100%-->
     <meta name="description" content="hell yeah site"> <!--permet d'ajouter une description du site-->
     <title>Cours HTML</title>
  </head>
@@ -18,7 +22,7 @@
     <main>
         <input type="text"/>
         <input type="password"/>
-        <h1>Titre, différence de taille, h1 est le plus gros, h6 le plus petit</h1>
+        <h1>Titre, différence de taille, h1 est le plus gros,</h1><h6>h6 le plus petit</h6>
         <hr/> <!--permet de mettre une ligne de séparation-->
         <p>< p > signifie un paragraphe</p>
         <p>< big > et < small > <big>met le texte en gros ou <small>en petit</small></big></p>
@@ -43,9 +47,6 @@
         <p><img width="300" height="250" src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="malaise"></p>
         <video width="500" src="Création OF.mkv" controls>Création Of tuto</video> <!-- mettre controls pour avoir les bouton fullscreen son...-->
         <!--"poster=" pour mettre une thumbnail, loop...-->
-
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/4zjXCn95kRs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <!-- iframe permet l'intégration de vidéos d'autres site ex Youtube.-->
     
         <h1>Les Listes</h1>
 
@@ -70,8 +71,8 @@
         </ol>    
     
         <dl> <!-- liste qui permet d'ajouter une description de ses items-->
-            <dt>fufbaufbaefba</dt>
-            <dd>?????</dd>
+            <dt>Les produits laitiers</dt>
+            <dd>sont nos amis pour la vie</dd>
         </dl>
 
         <h1>Les tables</h1>
@@ -100,20 +101,28 @@
 
         <input type="date"/>
         <input type="file">
-        <textarea cols="30" rows="10"> <!--zone de texte vide-->
+        <textarea cols="30" rows="10"> 
             enter a paragraph
-        </textarea>
+        </textarea> <!--zone de texte vide-->
 
-        <input name="btn" type="radio">
-        <input name="btn1" type="radio">
+        <input name="btn" type="radio"> <!-- si ils ont le même nom on ne peut cocher que l'un ou l'autre-->
+        <input name="btn1" type="radio"> <!-- beaucoup d'inputs differents.-->
+    
+        <form> 
+            <!--bloc qui sert pour tout ce qui est input utilisateur-->
+        </form>
+        <h1>iFrames</h1>
+        
+        <p>Elles servent a integrer des choses d'autres sites par ex videos</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/4zjXCn95kRs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>the best video</iframe>
+        <!-- iframe permet l'intégration de vidéos d'autres site ex Youtube.-->
+
     </main>
 
     <footer>
 
- 
     </footer>
     
-
 
 </body>
 </html>
