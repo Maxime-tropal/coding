@@ -33,4 +33,4 @@ async def on_message(message): #se lance dès qu'un message est reçu sauf en ex
     if any(word in msg for word in words):
         await message.channel.send(random.choice(starter_encouragements))
 
-client.run(Token) 
+client.run(Token)
