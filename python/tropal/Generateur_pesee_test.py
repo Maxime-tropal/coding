@@ -12,12 +12,13 @@ archive = "\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\archive\\"
 def nbtxt(input_dir):
     os.chdir(input_dir)
     #scan du répertoire \\brive en ne prenant que les fichiers commençant par e_xxxxxx.
-    for ftextes in glob.glob("e_*"):
+    for ftextes in glob.glob("e_18120953.txt"):
         nomtexte = ftextes
         return nomtexte
 
 def verif():
     liste_verif = []
+    liste_verif_modif = []
     csv = pathlib.Path("\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\reference.csv")
     txt = pathlib.Path("\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\" + str(nomtexte))
     if csv.exists():
@@ -33,7 +34,9 @@ def verif():
     with open(cheminref, "r") as f:
         for lines in f:
             liste_verif = lines.split(";")
-            print(liste_verif)
+            liste_verif[-1] = liste_verif[-1].strip()
+            liste_verif_modif.append(liste_verif)
+        print(liste_verif_modif)
     
 def lecture():
     with open(cheminref,"r") as f:
@@ -71,5 +74,5 @@ def ecriture():
 
 nomtexte = nbtxt(chemintxt)
 verif()
-lecture()
+#lecture()
 #ecriture()
