@@ -17,6 +17,7 @@ def nbtxt(input_dir):
         return nomtexte
 
 def verif():
+    liste_verif = []
     csv = pathlib.Path("\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\reference.csv")
     txt = pathlib.Path("\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\" + str(nomtexte))
     if csv.exists():
@@ -29,6 +30,10 @@ def verif():
     else:
         ctypes.windll.user32.MessageBoxW(0, "Le fichier texte n'est pas dans le répertoire", "Attention", 1)
         exit()
+    with open(cheminref, "r") as f:
+        for lines in f:
+            liste_verif = lines.split(";")
+            print(liste_verif)
     
 def lecture():
     with open(cheminref,"r") as f:
