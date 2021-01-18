@@ -2,7 +2,7 @@ import os, time, pyperclip
 from tkinter import Label, Button, Tk
 
 
-os.chdir("C:\\Users\\mmi\\Desktop")
+os.chdir("C:\\Users\\mmi\\Desktop\\DEV\\python\\tropal")
 os.startfile("Trello.bat")
 time.sleep(5)
 with open("lien_telechargement.txt", "r") as f:
