@@ -3,7 +3,7 @@ from tkinter import Label, Button, Tk
 
 
 os.chdir("C:\\Users\\mmi\\Documents\\GitHub\\coding\\python\\tropal")
-#os.startfile("Trello.bat")
+os.startfile("Trello.bat")
 time.sleep(5)
 with open("lien_trello.txt", "r") as f:
     result = []
