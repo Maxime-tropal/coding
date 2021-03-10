@@ -6,9 +6,9 @@ listecsv = []
 listefinale = []
 ccourt=[]
 nvccourt=[]
-cheminref = "\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\reference.csv"
-chemintxt = "\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\"
-archive = "\\\\vifprod1\\ascii\\abattage\\elisa\\brive\\archive\\"
+cheminref = "\\\\vifprod1.cab.local\\ascii\\abattage\\elisa\\brive\\reference.csv"
+chemintxt = "\\\\vifprod1.cab.local\\ascii\\abattage\\elisa\\brive\\"
+archive = "\\\\vifprod1.cab.local\\ascii\\abattage\\elisa\\brive\\archive\\"
 
 def nbtxt(input_dir):
     os.chdir(input_dir)
